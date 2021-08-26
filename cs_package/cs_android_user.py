@@ -1,4 +1,4 @@
-from xpath import HOMEPAGE_XPATH, ACCOUNTPAGE_XPATH, SIGNUPPAGE_XPATH, SIGNINPAGE_XPATH
+from cs_package.xpath import HOMEPAGE_XPATH, ACCOUNTPAGE_XPATH, SIGNUPPAGE_XPATH, SIGNINPAGE_XPATH
 from time import sleep
 
 
@@ -8,7 +8,7 @@ class CSUser:
         sleep(1)
 
     def _find_element(self, xpath):
-        self.manager.driver.find_element_by_xpath(xpath)
+        return self.manager.driver.find_element_by_xpath(xpath)
 
     def _find_element_and_click(self, xpath):
         self.manager.driver.find_element_by_xpath(xpath).click()
