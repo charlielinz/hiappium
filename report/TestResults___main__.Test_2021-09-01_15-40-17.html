@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Unittest Results</title>
+    <title>CSApp functonal test report</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -10,10 +10,10 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                <h2 class="text-capitalize">Unittest Results</h2>
-                <p class='attribute'><strong>Start Time: </strong>2021-08-26 14:44:41</p>
-                <p class='attribute'><strong>Duration: </strong>43.91 s</p>
-                <p class='attribute'><strong>Summary: </strong>Total: 3, Pass: 1, Error: 2</p>
+                <h2 class="text-capitalize">CSApp functonal test report</h2>
+                <p class='attribute'><strong>Start Time: </strong>2021-09-01 15:40:17</p>
+                <p class='attribute'><strong>Duration: </strong>11.23 s</p>
+                <p class='attribute'><strong>Summary: </strong>Total: 1, Pass: 0, Error: 1</p>
             </div>
         </div>
         <div class="row">
@@ -28,7 +28,7 @@
                     </thead>
                     <tbody>
                         <tr class='warning'>
-                            <td class="col-xs-10">test_sign_in</td>
+                            <td class="col-xs-10">test_facebook_sign_in</td>
                             <td class="col-xs-1">
                                 <span class="label label-warning" style="display:block;width:40px;">Error</span>
                             </td>
@@ -39,8 +39,12 @@
                         <tr style="display:none;">
                             <td class="col-xs-9" colspan="3"><p style="color:maroon;">NoSuchElementException: Message: An element could not be located on the page using the given search parameters.
 </p><p style="color:maroon;">Traceback (most recent call last):
-  File "test.py", line 31, in test_sign_in
-    account_page = self.manager.driver.find_element_by_xpath(
+  File "/Users/charlielin/repos/hiappium/test.py", line 10, in test_facebook_sign_in
+    self.cs_user.facebook_sign_in(
+  File "/Users/charlielin/repos/hiappium/cs_package/cs_android_user.py", line 61, in facebook_sign_in
+    facebook_account = self._find_element(FACEBOOK_SIGNIN["account_name"])
+  File "/Users/charlielin/repos/hiappium/cs_package/cs_android_user.py", line 11, in _find_element
+    return self.manager.driver.find_element_by_xpath(xpath)
   File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/selenium/webdriver/remote/webdriver.py", line 394, in find_element_by_xpath
     return self.find_element(by=By.XPATH, value=xpath)
   File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/appium/webdriver/webdriver.py", line 283, in find_element
@@ -56,50 +60,11 @@
 selenium.common.exceptions.NoSuchElementException: Message: An element could not be located on the page using the given search parameters.
 
 </p>
-                            </td>
-                        </tr>
-                        <tr class='warning'>
-                            <td class="col-xs-10">test_sign_up</td>
-                            <td class="col-xs-1">
-                                <span class="label label-warning" style="display:block;width:40px;">Error</span>
-                            </td>
-                            <td class="col-xs-1">
-                                <button class="btn btn-default btn-xs">View</button>
-                            </td>
-                        </tr>
-                        <tr style="display:none;">
-                            <td class="col-xs-9" colspan="3"><p style="color:maroon;">NoSuchElementException: Message: An element could not be located on the page using the given search parameters.
-</p><p style="color:maroon;">Traceback (most recent call last):
-  File "test.py", line 23, in test_sign_up
-    account_page = self.manager.driver.find_element_by_xpath(
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/selenium/webdriver/remote/webdriver.py", line 394, in find_element_by_xpath
-    return self.find_element(by=By.XPATH, value=xpath)
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/appium/webdriver/webdriver.py", line 283, in find_element
-    return self.execute(RemoteCommand.FIND_ELEMENT, {'using': by, 'value': value})['value']
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/selenium/webdriver/remote/webdriver.py", line 321, in execute
-    self.error_handler.check_response(response)
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/appium/webdriver/errorhandler.py", line 31, in check_response
-    raise wde
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/appium/webdriver/errorhandler.py", line 26, in check_response
-    super().check_response(response)
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/selenium/webdriver/remote/errorhandler.py", line 242, in check_response
-    raise exception_class(message, screen, stacktrace)
-selenium.common.exceptions.NoSuchElementException: Message: An element could not be located on the page using the given search parameters.
-
-</p>
-                            </td>
-                        </tr>
-                        <tr class='success'>
-                            <td class="col-xs-10">test_sign_up_page</td>
-                            <td class="col-xs-1">
-                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
-                            </td>
-                            <td class="col-xs-1">
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3">
-                                Total: 3, Pass: 1, Error: 2 -- Duration: 43.91 s
+                                Total: 1, Pass: 0, Error: 1 -- Duration: 11.23 s
                             </td>
                         </tr>
                     </tbody>
