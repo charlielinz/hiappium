@@ -11,9 +11,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="text-capitalize">CSApp functonal test report</h2>
-                <p class='attribute'><strong>Start Time: </strong>2021-09-01 15:27:15</p>
-                <p class='attribute'><strong>Duration: </strong>11.08 s</p>
-                <p class='attribute'><strong>Summary: </strong>Total: 1, Pass: 0, Error: 1</p>
+                <p class='attribute'><strong>Start Time: </strong>2021-09-03 18:07:02</p>
+                <p class='attribute'><strong>Duration: </strong>72.62 s</p>
+                <p class='attribute'><strong>Summary: </strong>Total: 2, Pass: 1, Error: 1</p>
             </div>
         </div>
         <div class="row">
@@ -21,12 +21,20 @@
                 <table class='table table-hover table-responsive'>
                     <thead>
                         <tr>
-                            <th>__main__.Test</th>
+                            <th>__main__.TestThirdPartySignin</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr class='success'>
+                            <td class="col-xs-10">test_1_clear_storage</td>
+                            <td class="col-xs-1">
+                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                            </td>
+                            <td class="col-xs-1">
+                            </td>
+                        </tr>
                         <tr class='warning'>
                             <td class="col-xs-10">test_facebook_sign_in</td>
                             <td class="col-xs-1">
@@ -39,12 +47,8 @@
                         <tr style="display:none;">
                             <td class="col-xs-9" colspan="3"><p style="color:maroon;">NoSuchElementException: Message: An element could not be located on the page using the given search parameters.
 </p><p style="color:maroon;">Traceback (most recent call last):
-  File "/Users/charlielin/repos/hiappium/test.py", line 10, in test_facebook_sign_in
-    self.cs_user.facebook_sign_in(
-  File "/Users/charlielin/repos/hiappium/cs_package/cs_android_user.py", line 61, in facebook_sign_in
-    accountname_textfield = self._find_element(FACEBOOK_SIGNIN["account_name"])
-  File "/Users/charlielin/repos/hiappium/cs_package/cs_android_user.py", line 11, in _find_element
-    return self.manager.driver.find_element_by_xpath(xpath)
+  File "test.py", line 85, in test_facebook_sign_in
+    account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
   File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/selenium/webdriver/remote/webdriver.py", line 394, in find_element_by_xpath
     return self.find_element(by=By.XPATH, value=xpath)
   File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/appium/webdriver/webdriver.py", line 283, in find_element
@@ -64,7 +68,7 @@ selenium.common.exceptions.NoSuchElementException: Message: An element could not
                         </tr>
                         <tr>
                             <td colspan="3">
-                                Total: 1, Pass: 0, Error: 1 -- Duration: 11.08 s
+                                Total: 2, Pass: 1, Error: 1 -- Duration: 72.62 s
                             </td>
                         </tr>
                     </tbody>
