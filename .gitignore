@@ -115,3 +115,6 @@ dmypy.json
 
 # Mac sutff
 .DS_Store
+
+# secrets
+/secrets.py

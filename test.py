@@ -1,21 +1,16 @@
 import unittest
 import HtmlTestRunner
 from time import sleep
-from cs_package.xpath import HOMEPAGE, SIGNUPPAGE, ANDROID_SETTING
+from cs_package.xpath import (HOMEPAGE, SIGNUPPAGE, ANDROID_SETTING)
 from cs_package.driver_manager import DriverManager
 from cs_package.cs_android_user import CSUser
+from cs_package.app_caps import (CS_APP_CAPS, ANDROID_SETTING_CAPS, GOOGLE_STORE_CAPS)
+from secrets import ACCOUNT
 
 
 class TestGeneralSignin(unittest.TestCase):
     def setUp(self):
-        self.manager = DriverManager(
-            {
-                "platformName": "Android",
-                "deviceName": "emulator-5554",
-                "appPackage": "com.csapp3",
-                "appActivity": "com.csapp3.MainActivity",
-            }
-        )
+        self.manager = DriverManager(CS_APP_CAPS)
         self.cs_user = CSUser(self.manager)
 
     def tearDown(self):
@@ -44,45 +39,24 @@ class TestGeneralSignin(unittest.TestCase):
 
 class TestThirdPartySignin(unittest.TestCase):
     def setUp(self):
-        self.manager = DriverManager(
-            {
-                "platformName": "Android",
-                "deviceName": "emulator-5554",
-                "appPackage": "com.csapp3",
-                "appActivity": "com.csapp3.MainActivity",
-            }
-        )
+        self.manager = DriverManager(CS_APP_CAPS)
         self.cs_user = CSUser(self.manager)
 
     def tearDown(self):
         self.manager.driver.quit()
 
     def test_1_clear_storage(self):
-        self.manager = DriverManager(
-                {
-                    "platformName": "Android",
-                    "deviceName": "emulator-5554",
-                    "appPackage": "com.android.settings",
-                    "appActivity": "com.android.settings.Settings",
-                }
-            )
+        self.manager = DriverManager(ANDROID_SETTING_CAPS)
         self.cs_user = CSUser(self.manager)
         self.cs_user.clear_chrome_storage()
-        self.manager = DriverManager(
-            {
-                "platformName": "Android",
-                "deviceName": "emulator-5554",
-                "appPackage": "com.android.vending",
-                "appActivity": "com.android.vending.AssetBrowserActivity",
-            }
-        )
+        self.manager = DriverManager(GOOGLE_STORE_CAPS)
         self.cs_user = CSUser(self.manager)
         sleep(5)
         self.cs_user.clear_google_storage()
 
     def test_facebook_sign_in(self):
         self.cs_user.facebook_sign_in(
-            email="windylin31@yahoo.com.tw", password="1o42l4d03bp6"
+            email=ACCOUNT["facebook_email"], password=ACCOUNT["facebook_password"]
         )
         sleep(5)
         account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
@@ -90,7 +64,7 @@ class TestThirdPartySignin(unittest.TestCase):
 
     def test_line_sign_in(self):
         self.cs_user.line_sign_in(
-            email="windylin31@yahoo.com.tw", password="1o42l4g8bp6"
+            email=ACCOUNT["line_email"], password=ACCOUNT["line_password"]
         )
         sleep(3)
         account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
@@ -98,7 +72,7 @@ class TestThirdPartySignin(unittest.TestCase):
 
     def test_google_sign_in(self):
         self.cs_user.google_sign_in(
-            email="charlie.lin@citiesocial", password="1o42l4g8bp6"
+            email=ACCOUNT["google_email"], password=ACCOUNT["google_password"]
         )
         sleep(3)
         account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
