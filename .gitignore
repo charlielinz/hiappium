@@ -121,14 +121,3 @@ dmypy.json
 
 # testing reports
 /report
-
-# gitattributes
-/gitattributes
-
-# gitignore
-/gitignore
-
-# else
-/LICENCE
-/package-lock
-/package
