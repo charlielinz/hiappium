@@ -11,9 +11,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="text-capitalize">CSApp functonal test report</h2>
-                <p class='attribute'><strong>Start Time: </strong>2021-09-03 18:04:57</p>
-                <p class='attribute'><strong>Duration: </strong>70.73 s</p>
-                <p class='attribute'><strong>Summary: </strong>Total: 2, Pass: 1, Error: 1</p>
+                <p class='attribute'><strong>Start Time: </strong>2021-09-06 18:24:46</p>
+                <p class='attribute'><strong>Duration: </strong>0 ms</p>
+                <p class='attribute'><strong>Summary: </strong>Total: 2, Pass: 0, Error: 2</p>
             </div>
         </div>
         <div class="row">
@@ -21,22 +21,14 @@
                 <table class='table table-hover table-responsive'>
                     <thead>
                         <tr>
-                            <th>__main__.TestThirdPartySignin</th>
+                            <th>unittest.loader._FailedTest</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class='success'>
-                            <td class="col-xs-10">test_1_clear_storage</td>
-                            <td class="col-xs-1">
-                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
-                            </td>
-                            <td class="col-xs-1">
-                            </td>
-                        </tr>
                         <tr class='warning'>
-                            <td class="col-xs-10">test_facebook_sign_in</td>
+                            <td class="col-xs-10">TestThirdPartySigni/Users/charlielin/repos/hiappium/</td>
                             <td class="col-xs-1">
                                 <span class="label label-warning" style="display:block;width:40px;">Error</span>
                             </td>
@@ -45,30 +37,27 @@
                             </td>
                         </tr>
                         <tr style="display:none;">
-                            <td class="col-xs-9" colspan="3"><p style="color:maroon;">NoSuchElementException: Message: An element could not be located on the page using the given search parameters.
-</p><p style="color:maroon;">Traceback (most recent call last):
-  File "test.py", line 85, in test_facebook_sign_in
-    account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/selenium/webdriver/remote/webdriver.py", line 394, in find_element_by_xpath
-    return self.find_element(by=By.XPATH, value=xpath)
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/appium/webdriver/webdriver.py", line 283, in find_element
-    return self.execute(RemoteCommand.FIND_ELEMENT, {'using': by, 'value': value})['value']
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/selenium/webdriver/remote/webdriver.py", line 321, in execute
-    self.error_handler.check_response(response)
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/appium/webdriver/errorhandler.py", line 31, in check_response
-    raise wde
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/appium/webdriver/errorhandler.py", line 26, in check_response
-    super().check_response(response)
-  File "/Users/charlielin/repos/hiappium/.venv/lib/python3.8/site-packages/selenium/webdriver/remote/errorhandler.py", line 242, in check_response
-    raise exception_class(message, screen, stacktrace)
-selenium.common.exceptions.NoSuchElementException: Message: An element could not be located on the page using the given search parameters.
-
+                            <td class="col-xs-9" colspan="3"><p style="color:maroon;">AttributeError: module '__main__' has no attribute 'TestThirdPartySigni/Users/charlielin/repos/hiappium/'</p><p style="color:maroon;">AttributeError: module '__main__' has no attribute 'TestThirdPartySigni/Users/charlielin/repos/hiappium/'
+</p>
+                            </td>
+                        </tr>
+                        <tr class='warning'>
+                            <td class="col-xs-10">test</td>
+                            <td class="col-xs-1">
+                                <span class="label label-warning" style="display:block;width:40px;">Error</span>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p style="color:maroon;">AttributeError: module '__main__' has no attribute 'test'</p><p style="color:maroon;">AttributeError: module '__main__' has no attribute 'test'
 </p>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3">
-                                Total: 2, Pass: 1, Error: 1 -- Duration: 70.73 s
+                                Total: 2, Pass: 0, Error: 2 -- Duration: 0 ms
                             </td>
                         </tr>
                     </tbody>

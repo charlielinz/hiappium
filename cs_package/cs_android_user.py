@@ -3,6 +3,7 @@ from cs_package.xpath import (
     ACCOUNTPAGE,
     FACEBOOK_SIGNIN,
     LINE_SIGNIN,
+    GOOGLE_SIGNIN,
     SIGNUPPAGE,
     SIGNINPAGE,
     ANDROID_SETTING,
@@ -16,9 +17,6 @@ class CSUser:
         self.manager = manager
         sleep(1)
 
-    def _find_element_by_xpath(self, xpath):
-        return self.manager.driver.find_element_by_xpath(xpath)
-
     def _find_element_by_id(self, id_):
         return self.manager.driver.find_element_by_id(id_)
 
@@ -26,39 +24,18 @@ class CSUser:
         self.manager.driver.find_element_by_id(id_).click()
         sleep(1)
 
+    def _find_element_by_id_and_send_keys(self, id_, key):
+        self.manager.driver.find_element_by_id(id_).send_keys(key)
+
+    def _find_element_by_xpath(self, xpath):
+        return self.manager.driver.find_element_by_xpath(xpath)
+
     def _find_element_by_xpath_and_click(self, xpath):
         self.manager.driver.find_element_by_xpath(xpath).click()
         sleep(1)
 
     def _find_element_by_xpath_and_send_keys(self, xpath, key):
         self.manager.driver.find_element_by_xpath(xpath).send_keys(key)
-
-    def _clear_storage_step(self, app_id):
-        self._find_element_by_id_and_click(app_id)
-        self._find_element_by_xpath_and_click(ANDROID_SETTING["Storage & Cache"])
-        self._find_element_by_xpath_and_click(ANDROID_SETTING["Clear Storage"])
-        try:
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["cs app OK"])
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["back"])
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["back"])
-            return
-        except NoSuchElementException:
-            pass
-        try:  
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["Google Chrome Clear All Data"])
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["Google Chrome OK"])
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["back"])
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["back"])
-            return
-        except NoSuchElementException:
-            pass
-        try:
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["Google Search Clear All Data"])
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["Google Search OK"])
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["back"])
-            self._find_element_by_xpath_and_click(ANDROID_SETTING["back"])
-        except NoSuchElementException:
-            pass
 
     def adventure_page(self):
         self._find_element_by_xpath_and_click(HOMEPAGE["adventure"])
@@ -97,14 +74,62 @@ class CSUser:
         self._find_element_by_xpath_and_send_keys(SIGNINPAGE["password"], password)
         self._find_element_by_xpath_and_click(SIGNINPAGE["sign_in"])
 
-    def clear_storage(self):
+    def clear_chrome_storage(self):
         self._find_element_by_xpath_and_click(ANDROID_SETTING["app & notifications"])
-        num = ("1", "2", "3")
-        for nums in num:
-            app_id = "com.android.settings:id/app" + nums + "_view"
-            self._clear_storage_step(app_id)
+        self._find_element_by_id_and_click("com.android.settings:id/header_details")
+        app_list = self.manager.driver.find_elements_by_id("android:id/title")
+        for app in app_list:
+            app_name = app.get_attribute("text")
+            if "Chrome" in str(app_name):
+                app.click()
+                sleep(1)
+                self._find_element_by_xpath_and_click(
+                    ANDROID_SETTING["Storage & Cache"]
+                )
+                self._find_element_by_xpath_and_click(ANDROID_SETTING["Clear Storage"])
+                self._find_element_by_xpath_and_click(
+                    ANDROID_SETTING["Google Chrome Clear All Data"]
+                )
+                self._find_element_by_xpath_and_click(
+                    ANDROID_SETTING["Google Chrome OK"]
+                )
+                break
 
-    def facebook_sign_in(self, accountname, password):
+    def clear_google_storage(self):
+        try:
+            storepage_button_list = self.manager.driver.find_elements_by_id(
+                "com.android.vending:id/0_resource_name_obfuscated"
+            )
+            for button in storepage_button_list:
+                button_content = button.get_attribute("content-desc")
+                if "Open account menu" in str(button_content):
+                    button.click()
+                    break
+            sleep(1)
+            account_button_list = self.manager.driver.find_elements_by_id(
+                "com.android.vending:id/0_resource_name_obfuscated"
+            )
+            for button in account_button_list:
+                button_text = button.get_attribute("text")
+                if "Manage accounts on this device" in str(button_text):
+                    button.click()
+                    break
+            sleep(3)
+            device_account_list = self.manager.driver.find_elements_by_id(
+                "android:id/summary"
+            )
+            for account in device_account_list:
+                if account.get_attribute("text") == "Let apps refresh data automatically":
+                    break
+                else:
+                    account.click()
+                    sleep(1)
+                    self._find_element_by_id_and_click("com.android.settings:id/button")
+                    self._find_element_by_id_and_click("android:id/button1")
+        except Exception:
+            pass
+
+    def facebook_sign_in(self, email, password):
         self.account_page()
         self._find_element_by_xpath_and_click(ACCOUNTPAGE["sign_in_facebook"])
         sleep(2)
@@ -113,9 +138,10 @@ class CSUser:
             self._find_element_by_id_and_click("com.android.chrome:id/negative_button")
         except NoSuchElementException:
             pass
+        sleep(2)
         try:
             self._find_element_by_xpath_and_send_keys(
-                FACEBOOK_SIGNIN["account_name"], accountname
+                FACEBOOK_SIGNIN["email"], email
             )
         except NoSuchElementException:
             self._find_element_by_xpath_and_click(FACEBOOK_SIGNIN["continue"])
@@ -136,3 +162,29 @@ class CSUser:
         self._find_element_by_xpath_and_click(LINE_SIGNIN["enter"])
         sleep(1)
         self._find_element_by_xpath_and_click(LINE_SIGNIN["allow_access"])
+
+    def google_sign_in(self, email, password):
+        self.account_page()
+        self._find_element_by_xpath_and_click(ACCOUNTPAGE["sign_in_google"])
+        sleep(3)
+        try:
+            self._find_element_by_xpath_and_send_keys(GOOGLE_SIGNIN["email"], email)
+            self._find_element_by_xpath_and_click(GOOGLE_SIGNIN["email_next"])
+            sleep(2)
+            self._find_element_by_xpath_and_send_keys(
+                GOOGLE_SIGNIN["password"], password
+            )
+            self._find_element_by_xpath_and_click(GOOGLE_SIGNIN["password_next"])
+            sleep(3)
+            self._find_element_by_xpath_and_click(GOOGLE_SIGNIN["agree_button"])
+            sleep(3)
+            switch = self._find_element_by_xpath(GOOGLE_SIGNIN["switch"])
+            if switch.text == "ON":
+                switch.click()
+                sleep(2)
+            else:
+                pass
+            self._find_element_by_xpath_and_click(GOOGLE_SIGNIN["accept"])
+        except NoSuchElementException:
+            self._find_element_by_xpath_and_click(GOOGLE_SIGNIN["signed_account"])
+            pass

@@ -21,19 +21,11 @@ class TestGeneralSignin(unittest.TestCase):
     def tearDown(self):
         self.manager.driver.quit()
 
-    def test_sign_up_page(self):
-        self.cs_user.sign_up_page()
-        sleep(2)
-        sign_up_button = self.manager.driver.find_element_by_xpath(
-            SIGNUPPAGE["sign_up"]
-        )
-        self.assertEqual(sign_up_button.get_attribute("clickable"), "true")
-
     def test_sign_up(self):
         self.cs_user.sign_up(
-            lastname="test10",
+            lastname="test12",
             firstname="test",
-            email="test10@test.com",
+            email="test12@test.com",
             password="00000000",
             password_confirmed="00000000",
         )
@@ -67,31 +59,50 @@ class TestThirdPartySignin(unittest.TestCase):
 
     def test_1_clear_storage(self):
         self.manager = DriverManager(
+                {
+                    "platformName": "Android",
+                    "deviceName": "emulator-5554",
+                    "appPackage": "com.android.settings",
+                    "appActivity": "com.android.settings.Settings",
+                }
+            )
+        self.cs_user = CSUser(self.manager)
+        self.cs_user.clear_chrome_storage()
+        self.manager = DriverManager(
             {
                 "platformName": "Android",
                 "deviceName": "emulator-5554",
-                "appPackage": "com.android.settings",
-                "appActivity": "com.android.settings.Settings",
+                "appPackage": "com.android.vending",
+                "appActivity": "com.android.vending.AssetBrowserActivity",
             }
         )
         self.cs_user = CSUser(self.manager)
-        self.cs_user.clear_storage()
+        sleep(5)
+        self.cs_user.clear_google_storage()
 
     def test_facebook_sign_in(self):
         self.cs_user.facebook_sign_in(
-            accountname="windylin31@yahoo.com.tw", password="1o42l4d03bp6"
+            email="windylin31@yahoo.com.tw", password="1o42l4d03bp6"
         )
         sleep(5)
         account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
         self.assertEqual(account_page.get_attribute("clickable"), "true")
 
-    # def test_line_sign_in(self):
-    #     self.cs_user.line_sign_in(
-    #         email="windylin31@yahoo.com.tw", password="1o42l4g8bp6"
-    #     )
-    #     sleep(3)
-    #     account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
-    #     self.assertEqual(account_page.get_attribute("clickable"), "true")
+    def test_line_sign_in(self):
+        self.cs_user.line_sign_in(
+            email="windylin31@yahoo.com.tw", password="1o42l4g8bp6"
+        )
+        sleep(3)
+        account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
+        self.assertEqual(account_page.get_attribute("clickable"), "true")
+
+    def test_google_sign_in(self):
+        self.cs_user.google_sign_in(
+            email="charlie.lin@citiesocial", password="1o42l4g8bp6"
+        )
+        sleep(3)
+        account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
+        self.assertEqual(account_page.get_attribute("clickable"), "true")
 
 
 if __name__ == "__main__":
