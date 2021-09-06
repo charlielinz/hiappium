@@ -118,3 +118,6 @@ dmypy.json
 
 # secrets
 /secrets.py
+
+# testing reports
+/report
