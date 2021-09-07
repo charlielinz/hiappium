@@ -1,12 +1,13 @@
 from cs_package.xpath import (
+    ANDROID_SETTING,
     HOMEPAGE,
+    ADVENTUREPAGE,
     ACCOUNTPAGE,
     FACEBOOK_SIGNIN,
     LINE_SIGNIN,
     GOOGLE_SIGNIN,
     SIGNUPPAGE,
     SIGNINPAGE,
-    ANDROID_SETTING,
 )
 from time import sleep
 from selenium.common.exceptions import NoSuchElementException
@@ -15,14 +16,12 @@ from selenium.common.exceptions import NoSuchElementException
 class CSUser:
     def __init__(self, manager):
         self.manager = manager
-        sleep(1)
 
     def _find_element_by_id(self, id_):
         return self.manager.driver.find_element_by_id(id_)
 
     def _find_element_by_id_and_click(self, id_):
         self.manager.driver.find_element_by_id(id_).click()
-        sleep(1)
 
     def _find_element_by_id_and_send_keys(self, id_, key):
         self.manager.driver.find_element_by_id(id_).send_keys(key)
@@ -32,10 +31,48 @@ class CSUser:
 
     def _find_element_by_xpath_and_click(self, xpath):
         self.manager.driver.find_element_by_xpath(xpath).click()
-        sleep(1)
 
     def _find_element_by_xpath_and_send_keys(self, xpath, key):
         self.manager.driver.find_element_by_xpath(xpath).send_keys(key)
+
+    def _find_elements_by_id(self, id_):
+        return self.manager.driver.find_elements_by_id(id_)
+
+    def _swipe_up(self):
+        screen_width = self.manager.driver.get_window_size()["width"]
+        screen_height = self.manager.driver.get_window_size()["height"]
+        start_point = [screen_width * 0.5, screen_height * 0.75]
+        end_point = [screen_width * 0.5, screen_height * 0.25]
+        self.manager.driver.swipe(
+            start_point[0], start_point[1], end_point[0], end_point[1]
+        )
+
+    def _swipe_down(self):
+        screen_width = self.manager.driver.get_window_size()["width"]
+        screen_height = self.manager.driver.get_window_size()["height"]
+        start_point = [screen_width * 0.5, screen_height * 0.25]
+        end_point = [screen_width * 0.5, screen_height * 0.75]
+        self.manager.driver.swipe(
+            start_point[0], start_point[1], end_point[0], end_point[1]
+        )
+
+    def _swipe_left(self):
+        screen_width = self.manager.driver.get_window_size()["width"]
+        screen_height = self.manager.driver.get_window_size()["height"]
+        start_point = [screen_width * 0.75, screen_height * 0.5]
+        end_point = [screen_width * 0.25, screen_height * 0.5]
+        self.manager.driver.swipe(
+            start_point[0], start_point[1], end_point[0], end_point[1]
+        )
+
+    def _swipe_right(self):
+        screen_width = self.manager.driver.get_window_size()["width"]
+        screen_height = self.manager.driver.get_window_size()["height"]
+        start_point = [screen_width * 0.25, screen_height * 0.5]
+        end_point = [screen_width * 0.75, screen_height * 0.5]
+        self.manager.driver.swipe(
+            start_point[0], start_point[1], end_point[0], end_point[1]
+        )
 
     def adventure_page(self):
         self._find_element_by_xpath_and_click(HOMEPAGE["adventure"])
@@ -77,7 +114,8 @@ class CSUser:
     def clear_chrome_storage(self):
         self._find_element_by_xpath_and_click(ANDROID_SETTING["app & notifications"])
         self._find_element_by_id_and_click("com.android.settings:id/header_details")
-        app_list = self.manager.driver.find_elements_by_id("android:id/title")
+        sleep(1)
+        app_list = self._find_elements_by_id("android:id/title")
         for app in app_list:
             app_name = app.get_attribute("text")
             if "Chrome" in str(app_name):
@@ -97,7 +135,7 @@ class CSUser:
 
     def clear_google_storage(self):
         try:
-            storepage_button_list = self.manager.driver.find_elements_by_id(
+            storepage_button_list = self._find_elements_by_id(
                 "com.android.vending:id/0_resource_name_obfuscated"
             )
             for button in storepage_button_list:
@@ -106,7 +144,7 @@ class CSUser:
                     button.click()
                     break
             sleep(1)
-            account_button_list = self.manager.driver.find_elements_by_id(
+            account_button_list = self._find_elements_by_id(
                 "com.android.vending:id/0_resource_name_obfuscated"
             )
             for button in account_button_list:
@@ -115,11 +153,14 @@ class CSUser:
                     button.click()
                     break
             sleep(3)
-            device_account_list = self.manager.driver.find_elements_by_id(
+            device_account_list = self._find_elements_by_id(
                 "android:id/summary"
             )
             for account in device_account_list:
-                if account.get_attribute("text") == "Let apps refresh data automatically":
+                if (
+                    account.get_attribute("text")
+                    == "Let apps refresh data automatically"
+                ):
                     break
                 else:
                     account.click()
@@ -140,9 +181,7 @@ class CSUser:
             pass
         sleep(2)
         try:
-            self._find_element_by_xpath_and_send_keys(
-                FACEBOOK_SIGNIN["email"], email
-            )
+            self._find_element_by_xpath_and_send_keys(FACEBOOK_SIGNIN["email"], email)
         except NoSuchElementException:
             self._find_element_by_xpath_and_click(FACEBOOK_SIGNIN["continue"])
             return
@@ -188,3 +227,14 @@ class CSUser:
         except NoSuchElementException:
             self._find_element_by_xpath_and_click(GOOGLE_SIGNIN["signed_account"])
             pass
+
+    def early_bird_list(self):
+        for swipe_action in range(5):
+            try:
+                self.manager.driver.find_element_by_android_uiautomator('new UiSelector().className("android.widget.TextView").text("看全部早鳥首賣")').click()
+                break
+            except NoSuchElementException:
+                self._swipe_up()
+            sleep(2)
+
+

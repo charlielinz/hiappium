@@ -1,10 +1,10 @@
 import unittest
 import HtmlTestRunner
 from time import sleep
-from cs_package.xpath import (HOMEPAGE, SIGNUPPAGE, ANDROID_SETTING)
+from cs_package.xpath import HOMEPAGE, SIGNUPPAGE, ANDROID_SETTING, ADVENTUREPAGE
 from cs_package.driver_manager import DriverManager
 from cs_package.cs_android_user import CSUser
-from cs_package.app_caps import (CS_APP_CAPS, ANDROID_SETTING_CAPS, GOOGLE_STORE_CAPS)
+from cs_package.app_caps import CS_APP_CAPS, ANDROID_SETTING_CAPS, GOOGLE_STORE_CAPS
 from secrets import ACCOUNT
 
 
@@ -24,7 +24,6 @@ class TestGeneralSignin(unittest.TestCase):
             password="00000000",
             password_confirmed="00000000",
         )
-        sleep(10)
         sign_up_finish = self.manager.driver.find_element_by_xpath(
             SIGNUPPAGE["interested_theme_finish"]
         )
@@ -32,7 +31,6 @@ class TestGeneralSignin(unittest.TestCase):
 
     def test_sign_in(self):
         self.cs_user.sign_in("test2@test.com", "00000000")
-        sleep(2)
         account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
         self.assertEqual(account_page.get_attribute("clickable"), "true")
 
@@ -51,14 +49,12 @@ class TestThirdPartySignin(unittest.TestCase):
         self.cs_user.clear_chrome_storage()
         self.manager = DriverManager(GOOGLE_STORE_CAPS)
         self.cs_user = CSUser(self.manager)
-        sleep(5)
         self.cs_user.clear_google_storage()
 
     def test_facebook_sign_in(self):
         self.cs_user.facebook_sign_in(
             email=ACCOUNT["facebook_email"], password=ACCOUNT["facebook_password"]
         )
-        sleep(5)
         account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
         self.assertEqual(account_page.get_attribute("clickable"), "true")
 
@@ -66,7 +62,6 @@ class TestThirdPartySignin(unittest.TestCase):
         self.cs_user.line_sign_in(
             email=ACCOUNT["line_email"], password=ACCOUNT["line_password"]
         )
-        sleep(3)
         account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
         self.assertEqual(account_page.get_attribute("clickable"), "true")
 
@@ -74,9 +69,17 @@ class TestThirdPartySignin(unittest.TestCase):
         self.cs_user.google_sign_in(
             email=ACCOUNT["google_email"], password=ACCOUNT["google_password"]
         )
-        sleep(3)
         account_page = self.manager.driver.find_element_by_xpath(HOMEPAGE["account"])
         self.assertEqual(account_page.get_attribute("clickable"), "true")
+
+
+class TestAdventure(unittest.TestCase):
+    def setUp(self):
+        self.manager = DriverManager(CS_APP_CAPS)
+        self.cs_user = CSUser(self.manager)
+
+    def test_early_bird(self):
+        self.cs_user.early_bird_list()
 
 
 if __name__ == "__main__":

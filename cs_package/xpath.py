@@ -21,73 +21,13 @@ c = (
     "/android.view.ViewGroup[5]",
     "/android.view.ViewGroup[6]",
 )
-homepage_short = (
-    "/hierarchy"
-    + a[0]
-    + b[0]
-    + a[0]
-    + b[0]
-    + a[0]
-    + a[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[2]
-    + c[0]
-)
-accountpage_short = (
-    "/hierarchy"
-    + a[0]
-    + b[0]
-    + a[0]
-    + b[0]
-    + a[0]
-    + a[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[2]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[0]
-)
-sign_up_short = (
-    "/hierarchy"
-    + a[0]
-    + b[0]
-    + a[0]
-    + b[0]
-    + a[0]
-    + a[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[2]
-    + c[2]
-    + c[0]
-    + c[1]
-)
-sign_in_short = (
-    "/hierarchy"
-    + a[0]
-    + b[0]
-    + a[0]
-    + b[0]
-    + a[0]
-    + a[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[2]
-    + c[2]
-    + c[0]
-    + c[1]
-)
+cs_app_short = "/hierarchy" + a[0] + b[0] + a[0] + b[0] + a[0] + a[0] + c[0] + c[0] + c[0]
+homepage_short = cs_app_short + c[0] + c[0] + c[0] + c[0] + c[2] + c[0]
+adventure_short = cs_app_short + c[0] + c[0] + c[0] + c[0] + c[1] + c[0] + c[0] + c[0] + c[0] + c[0] + c[0] + c[0] + c[0] + c[0] + c[2]
+accountpage_short = cs_app_short + c[2] + c[0] + c[0] + c[0] + c[0]
+sign_up_short = cs_app_short + c[2] + c[2] + c[0] + c[1]
+sign_in_short = cs_app_short + c[2] + c[2] + c[0] + c[1]
+
 
 ANDROID_SETTING = {
     "app & notifications": "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/androidx.recyclerview.widget.RecyclerView/android.widget.LinearLayout[3]/android.widget.RelativeLayout/android.widget.TextView[1]",
@@ -101,13 +41,15 @@ ANDROID_SETTING = {
     "Google Search OK": "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button[2]",
 }
 
-GOOGLE = {}
-
 HOMEPAGE = {
     "adventure": homepage_short + "/android.widget.Button[1]",
     "search": homepage_short + "/android.widget.Button[2]",
     "favorite": homepage_short + "/android.widget.Button[3]",
     "account": homepage_short + "/android.widget.Button[4]",
+}
+
+ADVENTUREPAGE = {
+    "early_bird_list": adventure_short + "/android.widget.ScrollView" + c[0] + c[1] + c[0] + c[0] + "/android.widget.TextView"
 }
 
 ACCOUNTPAGE = {
@@ -162,23 +104,7 @@ SIGNUPPAGE = {
     "password": sign_up_short + c[2] + c[4] + "/android.widget.EditText",
     "password_confirmed": sign_up_short + c[2] + c[5] + "/android.widget.EditText",
     "sign_up": sign_up_short + c[2] + c[6],
-    "interested_theme_finish": "/hierarchy"
-    + a[0]
-    + b[0]
-    + a[0]
-    + b[0]
-    + a[0]
-    + a[0]
-    + c[0]
-    + c[0]
-    + c[0]
-    + c[3]
-    + c[2]
-    + c[0]
-    + c[1]
-    + c[2]
-    + c[0]
-    + c[0],
+    "interested_theme_finish": "/hierarchy" + a[0] + b[0] + a[0] + b[0] + a[0] + a[0] + c[0] + c[0] + c[0] + c[3] + c[2] + c[0] + c[1] + c[2] + c[0] + c[0],
 }
 
 
@@ -190,3 +116,5 @@ def xpath_replace(xpath):
     xpath_trans4 = xpath_trans3.replace(" + hierarchy", '"/hierarchy"')
 
     return xpath_trans4
+
+
