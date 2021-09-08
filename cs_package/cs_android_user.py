@@ -17,6 +17,8 @@ class CSUser:
     def __init__(self, manager):
         self.manager = manager
 
+    """     internal functions      """
+
     def _find_element_by_id(self, id_):
         return self.manager.driver.find_element_by_id(id_)
 
@@ -35,8 +37,22 @@ class CSUser:
     def _find_element_by_xpath_and_send_keys(self, xpath, key):
         self.manager.driver.find_element_by_xpath(xpath).send_keys(key)
 
+    def _find_element_by_classname(self, className):
+        return self.manager.driver.find_element_by_class_name(className)
+
+    def _find_element_by_class_and_text(self, className, text):
+        return self.manager.driver.find_element_by_android_uiautomator(
+            f'.className("{className}").text("{text}")'
+        )
+
+    def _find_element_by_class_and_text_and_click(self, className, text):
+        self._find_element_by_class_and_text(className, text).click()
+
     def _find_elements_by_id(self, id_):
         return self.manager.driver.find_elements_by_id(id_)
+
+    def _find_elements_by_classname(self, className):
+        return self.manager.driver.find_elements_by_class_name(className)
 
     def _swipe_up(self):
         screen_width = self.manager.driver.get_window_size()["width"]
@@ -74,6 +90,9 @@ class CSUser:
             start_point[0], start_point[1], end_point[0], end_point[1]
         )
 
+    """     user functions      """
+    """        Home page        """
+
     def adventure_page(self):
         self._find_element_by_xpath_and_click(HOMEPAGE["adventure"])
 
@@ -85,6 +104,28 @@ class CSUser:
 
     def account_page(self):
         self._find_element_by_xpath_and_click(HOMEPAGE["account"])
+
+    """     Adventure page      """
+
+    def early_bird_list(self):
+        while True:
+            try:
+                self._find_element_by_class_and_text_and_click(
+                    className="android.widget.TextView", text="看全部早鳥首賣"
+                )
+                break
+            except NoSuchElementException:
+                self._swipe_up()
+
+    def early_bird_prudoct_page(self):
+        self.early_bird_list()
+        for looking_early_product in range(20):
+            button_list = self._find_elements_by_classname("android.widget.TextView")
+            for button in button_list:
+                if "金額" in str(button.get_attribute("text")):
+                    button.click()
+
+    """      Account page       """
 
     def sign_up_page(self):
         self.account_page()
@@ -153,9 +194,7 @@ class CSUser:
                     button.click()
                     break
             sleep(3)
-            device_account_list = self._find_elements_by_id(
-                "android:id/summary"
-            )
+            device_account_list = self._find_elements_by_id("android:id/summary")
             for account in device_account_list:
                 if (
                     account.get_attribute("text")
@@ -227,14 +266,3 @@ class CSUser:
         except NoSuchElementException:
             self._find_element_by_xpath_and_click(GOOGLE_SIGNIN["signed_account"])
             pass
-
-    def early_bird_list(self):
-        for swipe_action in range(5):
-            try:
-                self.manager.driver.find_element_by_android_uiautomator('new UiSelector().className("android.widget.TextView").text("看全部早鳥首賣")').click()
-                break
-            except NoSuchElementException:
-                self._swipe_up()
-            sleep(2)
-
-
